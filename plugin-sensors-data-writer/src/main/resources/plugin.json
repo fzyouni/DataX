@@ -1,0 +1,6 @@
+{
+  "name": "sensorsDataWriter",
+  "class": "com.sensorsdata.datax.plugin.writer.NewSaWriter",
+  "description": "sensorsDataWriter",
+  "developer": "fz"
+}

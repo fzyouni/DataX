@@ -1,0 +1,54 @@
+{
+  "name": "sensorsDataWriter",
+  "parameter": {
+    "sdkLogPathAddress": "",
+    "sdkNetAddress": "",
+    "type": "",
+    "columns": [
+      {
+        "index": 0,
+        "name": "",
+        "ifNullGiveUp": false,
+        "exclude": false,
+        "dataConverters": [
+          {
+            "type": "",
+            "param": {
+              "flag": true
+            }
+          },
+          {
+            "type": "",
+            "param": {
+              "format": ""
+            }
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "name": "",
+        "ifNullGiveUp": true,
+        "dataConverters": [
+          {
+            "type": ""
+          }
+        ]
+      }
+    ],
+    "track": {
+      "distinctIdColumn": "",
+      "isLoginId": true,
+      "eventName": ""
+    },
+    "profileSet": {
+      "distinctIdColumn": "",
+      "isLoginId": true
+    },
+    "itemSet": {
+      "itemType": "",
+      "itemIdColumn": "",
+      "typeIsColumn": false
+    }
+  }
+}
