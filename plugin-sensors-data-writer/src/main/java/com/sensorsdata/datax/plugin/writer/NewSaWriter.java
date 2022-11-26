@@ -137,19 +137,26 @@ public class NewSaWriter extends Writer {
       Record record;
       while ((record = lineReceiver.getFromReader()) != null) {
         Map<String, Object> fieldsMap = new HashMap<>();
+        boolean sendFlag = true;
         for (SensorColumn sensorColumn : columns) {
           Column column = record.getColumn(sensorColumn.getIndex());
           Object value = ConverterUtil.convertField(sensorColumn, column);
           if (Objects.isNull(value)) {
             if (sensorColumn.getIfNullGiveUp()) {
+              sendFlag = false;
               RecordCountUtil.incNullGiveUpCount(sensorColumn.getName());
               break;
+            } else {
+              RecordCountUtil.incExcludeCount(sensorColumn.getName());
+              continue;
             }
           }
           fieldsMap.put(sensorColumn.getName(), value);
         }
         try {
-          convertFieldsMappingAndSend(pair, fieldsMap);
+          if (sendFlag) {
+            convertFieldsMappingAndSend(pair, fieldsMap);
+          }
         } catch (InvalidArgumentException e) {
           log.error("generate sensors data json fail.", e);
           RecordCountUtil.incBadRecordCount();
