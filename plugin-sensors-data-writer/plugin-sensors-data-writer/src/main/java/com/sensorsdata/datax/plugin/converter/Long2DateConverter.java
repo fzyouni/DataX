@@ -14,7 +14,7 @@ public class Long2DateConverter implements Converter {
     public SensorsColumn transform(SensorsColumn column, Map<String, Object> param) {
         Object value = column.getColumnData();
         if (Objects.isNull(value)) {
-            return new SensorsColumn(SensorsColumn.SensorsType.DATE, null);
+            return new SensorsColumn();
         }
         switch (column.getType()) {
             case NUMBER:

@@ -1,5 +1,6 @@
 package com.sensorsdata.datax.plugin.converter;
 
+import com.sensorsdata.datax.plugin.common.SensorsColumn;
 import com.sensorsdata.datax.plugin.convert.Converter;
 
 import java.util.Date;
@@ -13,16 +14,19 @@ public class Date2LongConverter implements Converter {
 
 
     @Override
-    public Object transform(Object value, Map<String, Object> param) {
+    public SensorsColumn transform(SensorsColumn column, Map<String, Object> param) {
+        Object value = column.getColumnData();
         if (Objects.isNull(value)) {
-            return null;
+            return new SensorsColumn(SensorsColumn.SensorsType.NUMBER, null);
         }
-        if (value instanceof Long) {
-            return value;
+        SensorsColumn.SensorsType type = column.getType();
+        switch (type) {
+            case DATE:
+                return new SensorsColumn(SensorsColumn.SensorsType.NUMBER, ((Date) value).getTime());
+            case NUMBER:
+                return column;
+            default:
+                return new SensorsColumn(SensorsColumn.SensorsType.NUMBER, new Date().getTime());
         }
-        if (value instanceof Date) {
-            return ((Date) value).getTime();
-        }
-        return new Date().getTime();
     }
 }

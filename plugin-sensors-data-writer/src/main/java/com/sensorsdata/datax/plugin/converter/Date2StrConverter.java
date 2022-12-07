@@ -1,5 +1,6 @@
 package com.sensorsdata.datax.plugin.converter;
 
+import com.sensorsdata.datax.plugin.common.SensorsColumn;
 import com.sensorsdata.datax.plugin.convert.Converter;
 
 import cn.hutool.core.date.DateUtil;
@@ -13,17 +14,19 @@ public class Date2StrConverter implements Converter {
     private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     @Override
-    public Object transform(Object value, Map<String, Object> param) {
+    public SensorsColumn transform(SensorsColumn column, Map<String, Object> param) {
+        Object value = column.getColumnData();
         if (Objects.isNull(value)) {
-            return null;
+            return new SensorsColumn(SensorsColumn.SensorsType.STRING, null);
         }
         String pattern = param.getOrDefault("pattern", DEFAULT_PATTERN).toString();
-        Date date;
-        if (value instanceof Date) {
-            date = (Date) value;
-        } else {
-            date = new Date();
+        switch (column.getType()) {
+            case DATE:
+                return new SensorsColumn(SensorsColumn.SensorsType.STRING, DateUtil.format((Date) value, pattern));
+            case STRING:
+                return column;
+            default:
+                return new SensorsColumn(SensorsColumn.SensorsType.STRING, DateUtil.format(new Date(), pattern));
         }
-        return DateUtil.format(date, pattern);
     }
 }
